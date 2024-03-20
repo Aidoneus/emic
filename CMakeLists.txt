@@ -5,6 +5,10 @@ PROJECT(emic C)
 # Additional flags for all build types
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -pedantic -std=c99 -O3 -fomit-frame-pointer -fno-PIC -fno-pie -no-pie -g")
 
+IF (MINGW)
+  SET(CMAKE_C_FLAG "${CMAKE_C_FLAGS} -mwindows")
+ENDIF (MINGW)
+
 # Find all source files
 FILE(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS "src/*.c")
 
