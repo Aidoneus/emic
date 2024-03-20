@@ -1,0 +1,37 @@
+name: Emic Windows Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: msys2/setup-msys2@v2
+      with:
+        msystem: MINGW64
+    - name: install libs
+      run: msys2 -c 'pacman --noconfirm -S
+        mingw-w64-x86_64-ninja
+        mingw-w64-x86_64-gcc
+        mingw-w64-x86_64-glew
+        mingw-w64-x86_64-glfw
+        mingw-w64-x86_64-cmake
+        mingw-w64-x86_64-make'
+    - uses: actions/checkout@v1
+    - name: emic -- create build dir
+      run: msys2 -c 'mkdir build'
+    - name: emic -- configure
+      run: msys2 -c 'cmake -DCMAKE_BUILD_TYPE=Release -G Ninja ..'
+      working-directory: build
+    - name: emic -- make
+      run: msys2 -c 'ninja'
+      working-directory: build
+    - name: emic -- prepare release folder
+      run: |
+        msys2 -c 'mkdir -p emic/release'
+        cp build/emic.exe emic/release/
+        msys2 -c 'strip emic/release/emic.exe'
+    - uses: actions/upload-artifact@v1
+      with:
+        name: Emic-Release
+        path: emic
