@@ -7,7 +7,7 @@ IF(POLICY CMP0072)
 ENDIF()
 
 # Additional flags for all build types
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -pedantic -std=c99 -O3 -fomit-frame-pointer -fno-PIC -fno-pie -no-pie -g")
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -pedantic -std=c99 -O3 -fomit-frame-pointer -g")
 
 # Find all source files
 FILE(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS "src/*.c")
@@ -26,6 +26,5 @@ FIND_PACKAGE(glfw3 3.3 REQUIRED)
 FIND_PACKAGE(GLEW REQUIRED)
 
 ADD_EXECUTABLE(emic WIN32 ${PROJECT_SOURCES})
-TARGET_LINK_OPTIONS(emic PRIVATE "-no-pie")
 TARGET_INCLUDE_DIRECTORIES(emic PRIVATE ${PROJECT_INCLUDE_DIRS})
 TARGET_LINK_LIBRARIES(emic OpenGL::GL GLEW::GLEW glfw)
