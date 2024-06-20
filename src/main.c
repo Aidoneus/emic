@@ -5,6 +5,11 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+const int wAspectX = 16;
+const int wAspectY = 9;
+const int wMulMin = 10;
+const int wMulDefault = 60;
+
 GLFWwindow* window;
 
 int main() {
@@ -17,11 +22,19 @@ int main() {
   glfwWindowHint(GLFW_SAMPLES, 4); // 4x anitaliasing
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3); // OpenGL 3.3
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // Supposedly for MacOS?
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+  // Mainly for macOS
+  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#ifdef _WIN32
+  // Consider possible scaling on Windows
+  glfwWindowHint(GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
+#elif __APPLE__
+  // For macOS too, at least as long as we don't have drawing adapted to these
+  glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
+#endif
 
   // Create window & context
-  window = glfwCreateWindow(800, 600, "Emic", NULL, NULL);
+  window = glfwCreateWindow(wAspectX * wMulDefault, wAspectY * wMulDefault, "Emic", NULL, NULL);
   if (window == NULL) {
     fprintf(stderr, "Failed to open GLFW window. Might be caused by Intel GPU (they are not OpenGL 3.3 compatible).\n");
     glfwTerminate();
@@ -34,6 +47,8 @@ int main() {
     return -1;
   }
 
+  glfwSetWindowSizeLimits(window, wAspectX * wMulMin, wAspectY * wMulMin, GLFW_DONT_CARE, GLFW_DONT_CARE);
+  glfwSetWindowAspectRatio(window, wAspectX, wAspectY);
   // Capture input
   glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
   do {
