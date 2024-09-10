@@ -2,30 +2,43 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "util.h"
 
 const int wAspectX = 16;
 const int wAspectY = 9;
 const int wMulMin = 10;
 const int wMulDefault = 60;
+#define OPTC 4
+const opt_config optv[OPTC] = {
+	{'v', "version"},
+	{'e', "echo"},
+};
 
+int shouldQuit = 0;
 GLFWwindow* window;
 
+void optVersion() {
+	printf(
+		"GIT_BRANCH: %s\nGITHUB_BRANCH: %s\nGIT_COMMIT_HASH: %s\nGITHUB_COMMIT_HASH: %s\n",
+		GIT_BRANCH,
+		GITHUB_BRANCH,
+		GIT_COMMIT_HASH,
+		GITHUB_COMMIT_HASH
+	);
+	shouldQuit = 1;
+}
+
 int main(int argc, char* argv[]) {
-	for (int i = 1; i < argc; i++) {
-		if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version")) {
-			printf(
-				"GIT_BRANCH: %s\nGITHUB_BRANCH: %s\nGIT_COMMIT_HASH: %s\nGITHUB_COMMIT_HASH: %s\n",
-				GIT_BRANCH,
-				GITHUB_BRANCH,
-				GIT_COMMIT_HASH,
-				GITHUB_COMMIT_HASH
-			);
-			return 0;
+	int argIdx = 0, optIdx = -1;
+	while ((optIdx = u_getopt(argc, argv, OPTC, optv, &argIdx, &optIdx)) != -1) {
+		switch (optIdx) {
+			case 0: optVersion(); break;
+			case 1: printf("echo: %s\n", argv[++argIdx]); break;
 		}
 	}
+	if (shouldQuit) return 0;
 
 	// OpenGL setup
 	glewExperimental = true;
@@ -65,11 +78,16 @@ int main(int argc, char* argv[]) {
 	glfwSetWindowAspectRatio(window, wAspectX, wAspectY);
 	// Capture input
 	glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
-	do {
+	while (!shouldQuit) {
 		glClear(GL_COLOR_BUFFER_BIT);
 		glfwSwapBuffers(window);
 		glfwPollEvents();
-	} while (glfwGetKey(window, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(window) == 0);
+
+		if (
+			(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+			|| glfwWindowShouldClose(window)
+		) shouldQuit = 1;
+	}
 
 	return 0;
 }
