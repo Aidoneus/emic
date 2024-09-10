@@ -33,7 +33,7 @@ jobs:
         msys2 -c 'cp /mingw64/bin/glfw3.dll emic/release'
         cp build/emic.exe emic/release/
         msys2 -c 'strip emic/release/emic.exe'
-    - uses: actions/upload-artifact@v1
+    - uses: actions/upload-artifact@v4
       with:
         name: Emic-Release
         path: emic
