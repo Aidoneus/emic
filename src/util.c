@@ -33,7 +33,7 @@ int uLogOpen() {
 		"%s->%s (built %s)",
 		GIT_BRANCH,
 		GIT_COMMIT_HASH,
-		GITHUB_BUILT ? "on GitHub" : "locally"
+		!strcmp(GITHUB_BUILT, "1") ? "on GitHub" : "locally"
 	);
 	return 0;
 }
