@@ -28,7 +28,7 @@ void uLogClose();
 /**
  * @brief Write a string to the log file
  * @param format Format string to write
- * @param va_list Possible data to print
+ * @param ... Possible data to print
  */
 void uLog(const char* format, ...);
 #endif /* EMIC_UTIL_H */

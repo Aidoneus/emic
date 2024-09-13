@@ -48,7 +48,7 @@ void uLogClose() {
 void uLog(const char* format, ...) {
 	if (logFile == NULL) return;
 	time_t ts = time(NULL);
-	fprintf(logFile, "\n%jd ", ts == (time_t)(-1) ? 0 : (intmax_t)gmtime(&ts));
+	fprintf(logFile, "\n%lu ", ts == (time_t)(-1) ? 0 : (long int)ts);
 	va_list args;
 	va_start(args, format);
 	vfprintf(logFile, format, args);
