@@ -10,32 +10,34 @@ const int wAspectX = 16;
 const int wAspectY = 9;
 const int wMulMin = 10;
 const int wMulDefault = 60;
-#define OPTC 2
+#define OPTC 1
 const opt_config optv[OPTC] = {
-	{'v', "version"},
-	{'e', "echo"},
+	{'s', "silent"},
 };
 
+int shouldLog = 1;
 int shouldQuit = 0;
 GLFWwindow* window;
 
-void optVersion() {
-	printf(
-		"GIT_BRANCH: %s\nGIT_COMMIT_HASH: %s\nGITHUB_BUILT: %s\n",
-		GIT_BRANCH,
-		GIT_COMMIT_HASH,
-		GITHUB_BUILT
-	);
-	shouldQuit = 1;
+void finish() {
+	uLogClose();
 }
 
 int main(int argc, char* argv[]) {
+	if (atexit(uLogClose)) {
+		if (uLogOpen()) return 1;
+		uLog("Exit hook registration failed");
+		uLogClose();
+		return 1;
+	}
 	int argIdx = 0, optIdx = -1;
 	while ((optIdx = uGetopt(argc, argv, OPTC, optv, &argIdx, &optIdx)) != -1) {
 		switch (optIdx) {
-			case 0: optVersion(); break;
-			case 1: printf("echo: %s\n", argv[++argIdx]); break;
+			case 0: shouldLog = 0; break;
 		}
+	}
+	if (shouldLog) {
+		if (uLogOpen()) return 1;
 	}
 	if (shouldQuit) return 0;
 
