@@ -10,7 +10,7 @@ const int wAspectX = 16;
 const int wAspectY = 9;
 const int wMulMin = 10;
 const int wMulDefault = 60;
-#define OPTC 4
+#define OPTC 2
 const opt_config optv[OPTC] = {
 	{'v', "version"},
 	{'e', "echo"},
@@ -21,11 +21,10 @@ GLFWwindow* window;
 
 void optVersion() {
 	printf(
-		"GIT_BRANCH: %s\nGITHUB_BRANCH: %s\nGIT_COMMIT_HASH: %s\nGITHUB_COMMIT_HASH: %s\n",
+		"GIT_BRANCH: %s\nGIT_COMMIT_HASH: %s\nGITHUB_BUILT: %s\n",
 		GIT_BRANCH,
-		GITHUB_BRANCH,
 		GIT_COMMIT_HASH,
-		GITHUB_COMMIT_HASH
+		GITHUB_BUILT
 	);
 	shouldQuit = 1;
 }
