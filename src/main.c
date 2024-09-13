@@ -24,10 +24,10 @@ void finish() {
 }
 
 int main(int argc, char* argv[]) {
-	if (atexit(uLogClose)) {
+	if (atexit(finish)) {
 		if (uLogOpen()) return 1;
 		uLog("Exit hook registration failed");
-		uLogClose();
+		finish();
 		return 1;
 	}
 	int argIdx = 0, optIdx = -1;
