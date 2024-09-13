@@ -31,7 +31,7 @@ void optVersion() {
 
 int main(int argc, char* argv[]) {
 	int argIdx = 0, optIdx = -1;
-	while ((optIdx = u_getopt(argc, argv, OPTC, optv, &argIdx, &optIdx)) != -1) {
+	while ((optIdx = uGetopt(argc, argv, OPTC, optv, &argIdx, &optIdx)) != -1) {
 		switch (optIdx) {
 			case 0: optVersion(); break;
 			case 1: printf("echo: %s\n", argv[++argIdx]); break;

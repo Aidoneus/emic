@@ -14,5 +14,5 @@ typedef struct OptionConfig {
  * @param optIdx Index of option from opts
  * @return -1 if invalid argument was encountered, optIdx otherwise
  */
-int u_getopt(int argc, char* argv[], int optc, const opt_config* optv, int* argIdx, int* optIdx);
+int uGetopt(int argc, char* argv[], int optc, const opt_config* optv, int* argIdx, int* optIdx);
 #endif /* EMIC_UTIL_H */

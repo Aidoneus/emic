@@ -1,7 +1,7 @@
 #include <string.h>
 #include "util.h"
 
-int u_getopt(int argc, char* argv[], int optc, const opt_config* optv, int* argIdx, int* optIdx) {
+int uGetopt(int argc, char* argv[], int optc, const opt_config* optv, int* argIdx, int* optIdx) {
 	int i = 0;
 	*optIdx = -1;
 	(*argIdx)++;
