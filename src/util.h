@@ -39,4 +39,19 @@ void uLog(const char* format, ...);
  * @return Levenshtein distance
  */
 int uWfl(char* a, char* b);
+/**
+ * @brief Prints bits as they occur in the data, i.e. starting from the least
+ * significant bit; bytes are separated by spaces
+ * significant bit
+ * @param p Pointer
+ * @param l How many bytes should be printed
+ */
+void uPrintb(void* p, size_t l);
+/**
+ * @brief Park-Miller "minimal standard" 31 bit PRNG, implemented with David G.
+ * Carta's optimisation: 32 bit math and no division. Based on:
+ * https://www.firstpr.com.au/dsp/rand31/
+ * @return New pseudo-random value, which is also put in the global "seed" var
+ */
+uint32_t uRnd();
 #endif /* EMIC_UTIL_H */

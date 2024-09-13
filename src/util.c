@@ -7,6 +7,7 @@
 
 FILE* logFile;
 const char* LOG_PATH = "emic.log";
+uint32_t seed = 1;
 
 int uGetopt(int argc, char* argv[], int optc, const opt_config* optv, int* argIdx, int* optIdx) {
 	int i = 0;
@@ -71,4 +72,21 @@ int uWfl(char* a, char* b) {
 		}
 	}
 	return d[r2][n];
+}
+void uPrintb(void* p, size_t l) {
+	uint8_t* b = p;
+	uint8_t j;
+	for (size_t i = 0; i < l; i++) {
+		for (j = 0; j < 8; j++) printf("%u", (*(b + i) >> j) & 1);
+		if (i != (l - 1)) printf(" ");
+	}
+}
+uint32_t uRnd() {
+	uint32_t h, l;
+	l = 16807 * (seed & 0xFFFF);
+	h = 16807 * (seed >> 16);
+	l += (h & 0x7FFF) << 16;
+	l += h >> 15;
+	if (l > 0x7FFFFFFF) l -= 0x7FFFFFFF;
+	return (seed = (int32_t)l);
 }
