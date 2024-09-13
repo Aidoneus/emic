@@ -54,3 +54,21 @@ void uLog(const char* format, ...) {
 	vfprintf(logFile, format, args);
 	va_end(args);
 }
+int uWfl(char* a, char* b) {
+	int m = strlen(a), n = strlen(b), r1 = 0, r2 = 1, i, j;
+	int d[2][n + 1];
+	int c[3];
+	for (j = 0; j <= n; j++) d[1][j] = j;
+	for (i = 1; i <= m; i++) {
+		r1 = !r1;
+		r2 = !r2;
+		d[r2][0] = i;
+		for (j = 1; j <= n; j++) {
+			c[0] = d[r1][j] + 1; // Deletion cost
+			c[1] = d[r2][j - 1] + 1; // Insertion cost
+			c[2] = d[r1][j - 1] + !!(a[i - 1] - b[j - 1]); // Substitution cost
+			d[r2][j] = c[0] < c[1] ? ((c[0] < c[2]) ? c[0] : c[2]) : ((c[1] < c[2]) ? c[1] : c[2]);
+		}
+	}
+	return d[r2][n];
+}

@@ -31,4 +31,12 @@ void uLogClose();
  * @param ... Possible data to print
  */
 void uLog(const char* format, ...);
+/**
+ * @brief Wagner-Fischer algorithm implementation for calculating the
+ * Levenshtein distance with some optimizations
+ * @param a String to compare against another
+ * @param b String to compare against another
+ * @return Levenshtein distance
+ */
+int uWfl(char* a, char* b);
 #endif /* EMIC_UTIL_H */
